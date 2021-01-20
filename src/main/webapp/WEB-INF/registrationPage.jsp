@@ -26,6 +26,17 @@
         <form:label path="passwordConfirmation">Password Confirmation:</form:label>
         <form:password path="passwordConfirmation"/>
     </p>
+
+    <div class="form-group">
+        <form:label path="selected">Role</form:label>
+        <form:errors path="selected"/>
+        <form:select path="selected">
+            <c:forEach items="${ allRoles }" var="r">
+                <option value="${ r }">${ r }</option>
+            </c:forEach>
+        </form:select>
+    </div>
+
     <input type="submit" value="Register!"/>
 </form:form>
 </body>

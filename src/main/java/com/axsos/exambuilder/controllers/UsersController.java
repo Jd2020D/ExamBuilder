@@ -1,5 +1,6 @@
 package com.axsos.exambuilder.controllers;
 
+import com.axsos.exambuilder.models.AllRoles;
 import com.axsos.exambuilder.models.User;
 import com.axsos.exambuilder.services.UserService;
 import com.axsos.exambuilder.validator.UserValidator;
@@ -16,7 +17,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
-public class Users {
+public class UsersController {
 
     private UserService userService;
 
@@ -24,13 +25,13 @@ public class Users {
     private UserValidator userValidator;
 
     // NEW
-    public Users(UserService userService, UserValidator userValidator) {
+    public UsersController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
         this.userValidator = userValidator;
     }
     @RequestMapping("/registration")
-    public String registerForm(@Valid @ModelAttribute("user") User user) {
-
+    public String registerForm(@Valid @ModelAttribute("user") User user ,Model model) {
+        model.addAttribute("allRoles", AllRoles.Roles);
 
         return "registrationPage.jsp";
     }
@@ -44,8 +45,18 @@ public class Users {
         if (result.hasErrors()) {
             return "registrationPage.jsp";
         }
-        userService.saveWithUserRole(user);
+        if (user.getSelected().equals("ROLE_ADMIN"))
+            userService.saveUserWithAdminRole(user);
+
+        else if (user.getSelected().equals("ROLE_INSTRUCTOR"))
+            userService.saveWithInstructorRole(user);
+
+        else if (user.getSelected().equals("ROLE_STUDENT"))
+            userService.saveWithStudentRole(user);
+
+
         return "redirect:/login";
+
     }
 
     @RequestMapping("/admin")

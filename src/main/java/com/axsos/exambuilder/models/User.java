@@ -20,6 +20,10 @@ public class User {
     private String password;
     @Transient
     private String passwordConfirmation;
+
+    @Transient
+    private String selected;
+
     @Column(updatable=false)
     private Date createdAt;
     private Date updatedAt;
@@ -56,6 +60,15 @@ public class User {
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
     }
+
+    public String getSelected() {
+        return selected;
+    }
+
+    public void setSelected(String selected) {
+        this.selected = selected;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
