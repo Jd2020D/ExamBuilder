@@ -40,7 +40,63 @@ public class Question {
     @JoinColumn(name="exam_id")
     private Exam exam;
     
-    @OneToMany(mappedBy="question", fetch = FetchType.LAZY)
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Exam getExam() {
+		return exam;
+	}
+
+	public void setExam(Exam exam) {
+		this.exam = exam;
+	}
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+
+	public List<StudentQuestion> getStudentQuestions() {
+		return studentQuestions;
+	}
+
+	public void setStudentQuestions(List<StudentQuestion> studentQuestions) {
+		this.studentQuestions = studentQuestions;
+	}
+
+	@OneToMany(mappedBy="question", fetch = FetchType.LAZY)
     private List<Answer> answers;
     
     @OneToMany(mappedBy="question", fetch = FetchType.LAZY)

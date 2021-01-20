@@ -45,6 +45,61 @@ public class StudentQuestion {
     @OneToMany(mappedBy="studentQuestion", fetch = FetchType.LAZY)
     private List<StudentAnswer> studentsAnswers;
     
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public StudentExam getStudentExam() {
+		return studentExam;
+	}
+
+	public void setStudentExam(StudentExam studentExam) {
+		this.studentExam = studentExam;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+	public List<StudentAnswer> getStudentsAnswers() {
+		return studentsAnswers;
+	}
+
+	public void setStudentsAnswers(List<StudentAnswer> studentsAnswers) {
+		this.studentsAnswers = studentsAnswers;
+	}
+
+	public StudentAnswer getChosedAnswer() {
+		return chosedAnswer;
+	}
+
+	public void setChosedAnswer(StudentAnswer chosedAnswer) {
+		this.chosedAnswer = chosedAnswer;
+	}
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="student_answer_id")
 	private StudentAnswer chosedAnswer;

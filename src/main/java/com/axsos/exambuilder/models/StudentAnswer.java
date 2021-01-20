@@ -39,7 +39,47 @@ public class StudentAnswer {
     @JoinColumn(name="answer_id")
     private Answer answer;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
+
+	public StudentQuestion getStudentQuestion() {
+		return studentQuestion;
+	}
+
+	public void setStudentQuestion(StudentQuestion studentQuestion) {
+		this.studentQuestion = studentQuestion;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="studentQuestion_id")
     private StudentQuestion studentQuestion;
     

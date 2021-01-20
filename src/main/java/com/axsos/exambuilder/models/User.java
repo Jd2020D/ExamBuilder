@@ -33,8 +33,26 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+    
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    private List<Exam> exams; // instructor exam
+    
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    private List<StudentExam> studentExams; // exam
 
-    public User() {
+	public List<Exam> getExams() {
+		return exams;
+	}
+	public void setExams(List<Exam> exams) {
+		this.exams = exams;
+	}
+	public List<StudentExam> getStudentExams() {
+		return studentExams;
+	}
+	public void setStudentExams(List<StudentExam> studentExams) {
+		this.studentExams = studentExams;
+	}
+	public User() {
     }
     public Long getId() {
         return id;
