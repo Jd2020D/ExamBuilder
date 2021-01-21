@@ -31,7 +31,7 @@ public class UsersController {
     }
     @RequestMapping("/registration")
     public String registerForm(@Valid @ModelAttribute("user") User user ,Model model) {
-        model.addAttribute("allRoles", AllRoles.Roles);
+            model.addAttribute("allRoles", AllRoles.Roles);
 
         return "registrationPage.jsp";
     }
@@ -42,17 +42,17 @@ public class UsersController {
     public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session) {
         userValidator.validate(user, result);
 
-        if (result.hasErrors()) {
+            if (result.hasErrors()) {
             return "registrationPage.jsp";
-        }
-        if (user.getSelected().equals("ROLE_ADMIN"))
-            userService.saveUserWithAdminRole(user);
+               }
+    if (user.getSelected().equals("ROLE_ADMIN"))
+        userService.saveUserWithAdminRole(user);
 
-        else if (user.getSelected().equals("ROLE_INSTRUCTOR"))
-            userService.saveWithInstructorRole(user);
+    else if (user.getSelected().equals("ROLE_INSTRUCTOR"))
+        userService.saveWithInstructorRole(user);
 
-        else if (user.getSelected().equals("ROLE_STUDENT"))
-            userService.saveWithStudentRole(user);
+    else if (user.getSelected().equals("ROLE_STUDENT"))
+        userService.saveWithStudentRole(user);
 
 
         return "redirect:/login";
@@ -76,11 +76,13 @@ public class UsersController {
         }
         return "loginPage.jsp";
     }
-    @RequestMapping(value = {"/", "/home"})
+/*    @RequestMapping(value = {"/", "/home"})
     public String home(Principal principal, Model model) {
         // 1
         String username = principal.getName();
         model.addAttribute("currentUser", userService.findByUsername(username));
         return "homePage.jsp";
     }
+
+ */
 }

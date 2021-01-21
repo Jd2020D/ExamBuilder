@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,11 +10,15 @@
     <title>Registration Page</title>
 </head>
 <body>
-<h1>Register!</h1>
+<h1>Edit User</h1>
 
 <p><form:errors path="user.*"/></p>
 
-<form:form method="POST" action="/registration" modelAttribute="user">
+<form:form method="POST" action="/editUser" modelAttribute="user">
+
+    <input type="hidden" name="_method" value="put">
+    <form:hidden path="id" />
+
     <p>
         <form:label path="username">Username:</form:label>
         <form:input path="username"/>
@@ -38,7 +43,14 @@
     </div>
 
 
-    <input type="submit" value="Register!"/>
+    <input type="submit" value="Edit!"/>
+
+    <a class="btn btn-primary" href="/deleteUser/${user.id}">Delete</a>
+
 </form:form>
+
+
+</body>
+</html>
 </body>
 </html>

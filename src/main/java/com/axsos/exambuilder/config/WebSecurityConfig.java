@@ -20,22 +20,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public WebSecurityConfig(UserDetailsServiceImplementation userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
-
+//
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.
-                authorizeRequests()
-                .antMatchers("/static/**", "/registration").permitAll()
-                .antMatchers("/admin/**").access("hasRole('ADMIN')")    // NEW
-
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+//        http.
+//                authorizeRequests()
+//                .antMatchers("/static/**", "/registration","/createUser").permitAll()
+//                .antMatchers("/admin/**").access("hasRole('ADMIN')")    // NEW
+//
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll();
     }
 
     @Bean

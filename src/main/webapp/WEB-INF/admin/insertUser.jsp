@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,11 +10,11 @@
     <title>Registration Page</title>
 </head>
 <body>
-<h1>Register!</h1>
+<h1>Insert Users!</h1>
 
 <p><form:errors path="user.*"/></p>
 
-<form:form method="POST" action="/registration" modelAttribute="user">
+<form:form method="POST" action="/insertUser" modelAttribute="user">
     <p>
         <form:label path="username">Username:</form:label>
         <form:input path="username"/>
@@ -38,7 +39,9 @@
     </div>
 
 
-    <input type="submit" value="Register!"/>
+    <input type="submit" value="Insert!"/>
 </form:form>
+</body>
+</html>
 </body>
 </html>

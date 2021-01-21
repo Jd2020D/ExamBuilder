@@ -7,6 +7,8 @@ import com.axsos.exambuilder.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -21,24 +23,24 @@ public class UserService {
 
 
     // 1
-    public void saveWithInstructorRole(User user) {
+    public User saveWithInstructorRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByName("ROLE_INSTRUCTOR"));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
 
-    public void saveWithStudentRole(User user) {
+    public User saveWithStudentRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByName("ROLE_STUDENT"));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     // 2
-    public void saveUserWithAdminRole(User user) {
+    public User saveUserWithAdminRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByName("ROLE_ADMIN"));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
 
@@ -47,5 +49,9 @@ public class UserService {
     // 3
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public List<User> all() {
+        return userRepository.findAll();
     }
 }
