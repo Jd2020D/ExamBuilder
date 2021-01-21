@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -42,8 +44,8 @@ public class StudentQuestion {
     @JoinColumn(name="question_id")
     private Question question;
 
-    @OneToMany(mappedBy="studentQuestion", fetch = FetchType.LAZY)
-    private List<StudentAnswer> studentsAnswers;
+//    @OneToMany(mappedBy="studentQuestion", fetch = FetchType.LAZY)
+//    private List<StudentAnswer> studentsAnswers;
     
 	public Long getId() {
 		return id;
@@ -85,13 +87,13 @@ public class StudentQuestion {
 		this.question = question;
 	}
 
-	public List<StudentAnswer> getStudentsAnswers() {
-		return studentsAnswers;
-	}
-
-	public void setStudentsAnswers(List<StudentAnswer> studentsAnswers) {
-		this.studentsAnswers = studentsAnswers;
-	}
+//	public List<StudentAnswer> getStudentsAnswers() {
+//		return studentsAnswers;
+//	}
+//
+//	public void setStudentsAnswers(List<StudentAnswer> studentsAnswers) {
+//		this.studentsAnswers = studentsAnswers;
+//	}
 
 	public StudentAnswer getChosedAnswer() {
 		return chosedAnswer;
@@ -100,8 +102,18 @@ public class StudentQuestion {
 	public void setChosedAnswer(StudentAnswer chosedAnswer) {
 		this.chosedAnswer = chosedAnswer;
 	}
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "studentAnswers", 
+        joinColumns = @JoinColumn(name = "studentQuestion_id"), 
+        inverseJoinColumns = @JoinColumn(name = "answer_id")
+    )
+    private List<Answer> answers;
+
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="student_answer_id")
 	private StudentAnswer chosedAnswer;
 	 ///    private User teacher;
+	
+
 }

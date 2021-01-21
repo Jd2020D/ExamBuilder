@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -35,7 +37,12 @@ public class Question {
         this.updatedAt = new Date();
     }
     
-    private String text;
+    public Question(Question question) {
+		this.text = question.text;
+		this.exam = question.exam;
+	}
+
+	private String text;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="exam_id")
     private Exam exam;
@@ -88,19 +95,33 @@ public class Question {
 		this.answers = answers;
 	}
 
-	public List<StudentQuestion> getStudentQuestions() {
-		return studentQuestions;
-	}
-
-	public void setStudentQuestions(List<StudentQuestion> studentQuestions) {
-		this.studentQuestions = studentQuestions;
-	}
+//	public List<StudentQuestion> getStudentQuestions() {
+//		return studentQuestions;
+//	}
+//
+//	public void setStudentQuestions(List<StudentQuestion> studentQuestions) {
+//		this.studentQuestions = studentQuestions;
+//	}
 
 	@OneToMany(mappedBy="question", fetch = FetchType.LAZY)
     private List<Answer> answers;
     
-    @OneToMany(mappedBy="question", fetch = FetchType.LAZY)
-    private List<StudentQuestion> studentQuestions;
+//    @OneToMany(mappedBy="question", fetch = FetchType.LAZY)
+//    private List<StudentQuestion> studentQuestions;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "studentQuestions", 
+        joinColumns = @JoinColumn(name = "question_id"), 
+        inverseJoinColumns = @JoinColumn(name = "studentExam_id")
+    )
+    private List<StudentExam> studentExams;
+	public List<StudentExam> getStudentExams() {
+		return studentExams;
+	}
+
+	public void setStudentExams(List<StudentExam> studentExams) {
+		this.studentExams = studentExams;
+	}
 
     
 //    private User teacher;

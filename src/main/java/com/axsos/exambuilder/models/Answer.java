@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -29,6 +31,12 @@ public class Answer {
     private Date updatedAt;
     public Long getId() {
 		return id;
+	}
+
+	public Answer(Answer answer) {
+		this.text = answer.text;
+		this.isCorrect = answer.isCorrect;
+		this.question = answer.question;
 	}
 
 	public void setId(Long id) {
@@ -75,13 +83,13 @@ public class Answer {
 		this.question = question;
 	}
 
-	public List<StudentAnswer> getStudentsAnswers() {
-		return studentsAnswers;
-	}
-
-	public void setStudentsAnswers(List<StudentAnswer> studentsAnswers) {
-		this.studentsAnswers = studentsAnswers;
-	}
+//	public List<StudentAnswer> getStudentsAnswers() {
+//		return studentsAnswers;
+//	}
+//
+//	public void setStudentsAnswers(List<StudentAnswer> studentsAnswers) {
+//		this.studentsAnswers = studentsAnswers;
+//	}
 
 	@PrePersist
     protected void onCreate() {
@@ -101,8 +109,15 @@ public class Answer {
     @JoinColumn(name="question_id")
     private Question question;
     
-    @OneToMany(mappedBy="answer", fetch = FetchType.LAZY)
-    private List<StudentAnswer> studentsAnswers;
+//    @OneToMany(mappedBy="answer", fetch = FetchType.LAZY)
+//    private List<StudentAnswer> studentsAnswers;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "studentAnswers", 
+        joinColumns = @JoinColumn(name = "answer_id"), 
+        inverseJoinColumns = @JoinColumn(name = "studentQuestion_id")
+    )
+    private List<Answer> answers;
 
 //    private User teacher;
 }
