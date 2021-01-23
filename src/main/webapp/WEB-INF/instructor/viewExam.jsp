@@ -161,10 +161,13 @@
     <c:forEach items="${thisExam.questions}" var="q">
             <section>
             <form:form style="display:flex;" method="POST" action="/instructor/${instructor.id}/exams/${thisExam.id }/questions/${q.id }/update" modelAttribute="question">
+
             	<table>
+
             		<tr>
             			<td><form:input path="questionText" value= "${q.questionText }"/></td>
-            			<td><input type="submit" value="Edit"/></td>
+
+                        <td><input type="submit" value="Edit"/></td>
             			<td><a name="question_${q.id}"></a><a  href="/instructor/${instructor.id }/exams/${thisExam.id }/questions/${q.id }/delete"> Delete</a></td>
                 		<c:if test="${erroredQuestion.id == q.id}">
                 		<td><form:errors path="questionText"/></td>
@@ -172,8 +175,9 @@
             		</tr>
             	</table>
             
-             </form:form>	
-                 <table>
+             </form:form>
+
+                 <table class="collapse" id="collapseExample">
                 	<tr>
                 	<td>is Correct</td>
                 	</tr>
