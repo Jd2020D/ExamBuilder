@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -34,7 +35,7 @@ public class StudentExam {
     protected void onUpdate() {
         this.updatedAt = new Date();
     }
-    
+    public StudentExam() {}
     public StudentExam( Exam exam,User user) {
 		this.user = user;
 		this.exam = exam;
@@ -103,20 +104,20 @@ public class StudentExam {
 		this.exam = exam;
 	}
 
-//	public List<StudentQuestion> getStudentQuestions() {
-//		return studentQuestions;
-//	}
-//
-//	public void setStudentQuestions(List<StudentQuestion> studentQuestions) {
-//		this.studentQuestions = studentQuestions;
-//	}
+	public List<StudentQuestion> getStudentQuestions() {
+		return studentQuestions;
+	}
+
+	public void setStudentQuestions(List<StudentQuestion> studentQuestions) {
+		this.studentQuestions = studentQuestions;
+	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="exam_id")
     private Exam exam;
     
-//    @OneToMany(mappedBy="studentExam", fetch = FetchType.LAZY)
-//    private List<StudentQuestion> studentQuestions;
+    @OneToMany(mappedBy="studentExam", fetch = FetchType.LAZY)
+    private List<StudentQuestion> studentQuestions;
 	
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

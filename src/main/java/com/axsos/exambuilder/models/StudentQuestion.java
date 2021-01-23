@@ -110,6 +110,13 @@ public class StudentQuestion {
     )
     private List<Answer> answers;
 
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="student_answer_id")
 	private StudentAnswer chosedAnswer;

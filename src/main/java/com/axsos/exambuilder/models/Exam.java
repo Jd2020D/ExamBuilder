@@ -1,10 +1,9 @@
 package com.axsos.exambuilder.models;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,13 +17,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.validation.constraints.Future;
+import javax.persistence.Transient;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 @Table(name = "exams")
@@ -44,30 +46,47 @@ public class Exam {
     protected void onUpdate() {
         this.updatedAt = new Date();
     }
-    public Exam(Exam exam) {
+    public Exam() {}
+    public Exam(String title, Integer markFrom,Date examDay, Date examHour,
+    			Integer duration, Boolean isExtra) {
+		this.title = title;
+		this.markFrom = markFrom;
+		this.examDay = examDay;
+		this.examDay.setHours(examHour.getHours());
+		this.examDay.setMinutes(examHour.getMinutes());
+		this.duration = duration;
+		this.isExtra = isExtra;
+	}
+
+	public Exam(Exam exam) {
 		this.title = exam.title;
 		this.markFrom = exam.markFrom;
 		this.examDay = exam.examDay;
+		this.examDay.setHours(exam.examHour.getHours());
+		this.examDay.setMinutes(exam.examHour.getMinutes());
 		this.duration = exam.duration;
-		this.isPublished = exam.isPublished;
 		this.isExtra = exam.isExtra;
 		this.user = exam.user;
 	}
     @Size(min=2,max=50)
 	private String title;
+	@Min(5)@Max(100)@NotNull
     private Integer markFrom;
-    @FutureOrPresent
+    @FutureOrPresent@NotNull
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date examDay;
-    private String examHour;
-    public String getExamHour() {
-		return examHour;
+    @DateTimeFormat(pattern="HH:mm")
+    @Transient	
+    private Date examHour;
+    public Date getExamHour() {
+		return examDay;
 	}
 
-	public void setExamHour(String examHour) {
+	public void setExamHour(Date examHour) {
 		this.examHour = examHour;
 	}
-	@Min(5)@Max(120)
+	@Range(min=5,max=120)
+	@NotNull
     private Integer duration;
     private Boolean isPublished=false;
     private Boolean isExtra=false;
@@ -117,6 +136,8 @@ public class Exam {
 	}
 
 	public void setExamDay(Date startTime) {
+//		startTime.setHours(this.examHour.getHours());
+//		startTime.setMinutes(this.examHour.getMinutes());
 		this.examDay = startTime;
 	}
 
@@ -185,5 +206,23 @@ public class Exam {
     		return temp.subList(0, temp.size());
     	return temp.subList(0, numOfQuestions);
     }
+    public String getExamTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");  
+
+    	return formatter.format(this.examDay);
+    	
+   }
+    public Date getExamTimeAsDate() {
+
+    	return this.examDay;
+    	
+   }
+
+    public String getExamDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
+
+    	return formatter.format(this.examDay);
+    	
+   }
 //    private User teacher;
 }

@@ -13,10 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.sun.istack.NotNull;
 
@@ -32,7 +32,7 @@ public class Answer {
     public Long getId() {
 		return id;
 	}
-
+    public Answer() {}
 	public Answer(Answer answer) {
 		this.text = answer.text;
 		this.isCorrect = answer.isCorrect;
@@ -100,7 +100,7 @@ public class Answer {
     protected void onUpdate() {
         this.updatedAt = new Date();
     }
-    
+    @Size(min=1,max=100)
     private String text;
     @NotNull
     private Boolean isCorrect;
@@ -117,7 +117,7 @@ public class Answer {
         joinColumns = @JoinColumn(name = "answer_id"), 
         inverseJoinColumns = @JoinColumn(name = "studentQuestion_id")
     )
-    private List<Answer> answers;
+    private List<StudentQuestion> studentQuestions;
 
 //    private User teacher;
 }

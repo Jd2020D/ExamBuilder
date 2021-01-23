@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "questions")
@@ -36,13 +37,15 @@ public class Question {
     protected void onUpdate() {
         this.updatedAt = new Date();
     }
+    public Question() {}
     
     public Question(Question question) {
-		this.text = question.text;
+		this.questionText = question.questionText;
 		this.exam = question.exam;
 	}
-
-	private String text;
+    
+    @Size(min=3,max=250)
+	private String questionText;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="exam_id")
     private Exam exam;
@@ -71,14 +74,14 @@ public class Question {
 		this.updatedAt = updatedAt;
 	}
 
-	public String getText() {
-		return text;
+	public String getQuestionText() {
+		return questionText;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setQuestionText(String text) {
+		this.questionText = text;
 	}
-
+	
 	public Exam getExam() {
 		return exam;
 	}
@@ -94,20 +97,20 @@ public class Question {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
+    @OneToMany(mappedBy="question", fetch = FetchType.LAZY)
+    private List<StudentQuestion> studentQuestions;
 
-//	public List<StudentQuestion> getStudentQuestions() {
-//		return studentQuestions;
-//	}
-//
-//	public void setStudentQuestions(List<StudentQuestion> studentQuestions) {
-//		this.studentQuestions = studentQuestions;
-//	}
+	public List<StudentQuestion> getStudentQuestions() {
+		return studentQuestions;
+	}
+
+	public void setStudentQuestions(List<StudentQuestion> studentQuestions) {
+		this.studentQuestions = studentQuestions;
+	}
 
 	@OneToMany(mappedBy="question", fetch = FetchType.LAZY)
     private List<Answer> answers;
     
-//    @OneToMany(mappedBy="question", fetch = FetchType.LAZY)
-//    private List<StudentQuestion> studentQuestions;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "studentQuestions", 
@@ -122,6 +125,8 @@ public class Question {
 	public void setStudentExams(List<StudentExam> studentExams) {
 		this.studentExams = studentExams;
 	}
+	
+
 
     
 //    private User teacher;
