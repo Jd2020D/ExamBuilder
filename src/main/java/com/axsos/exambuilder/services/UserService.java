@@ -1,28 +1,23 @@
 package com.axsos.exambuilder.services;
 
 
-import java.util.List;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import com.axsos.exambuilder.models.Role;
 import com.axsos.exambuilder.models.User;
 import com.axsos.exambuilder.repositories.RoleRepository;
 import com.axsos.exambuilder.repositories.UserRepository;
-import com.axsos.exambuilder.repositories.UserRoleRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final UserRoleRepository userRoleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserRoleRepository userRoleRepository)     {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder)     {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-		this.userRoleRepository = userRoleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -51,7 +46,7 @@ public class UserService {
 
 
 
-    // 3
+   // 3
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

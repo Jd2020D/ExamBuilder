@@ -20,17 +20,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public WebSecurityConfig(UserDetailsServiceImplementation userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
-//
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 authorizeRequests()
                 .antMatchers("/static/**", "/registration","/createUser").permitAll()
-                .antMatchers("/admin/**").access("hasRole('ADMIN')")    // NEW
-                .antMatchers("/instructor/**").access("hasRole('INSTRUCTOR')")    // NEW
-                .antMatchers("/api/instructors/**").access("hasRole('INSTRUCTOR')")   // NEW
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")    // NEW    // NEW
+                .antMatchers("/instructor/**").access("hasRole('INSTRUCTOR')")    // NEW    // NEW
+                .antMatchers("/student/**").access("hasRole('STUDENT')")    // NEW    // NEW
 
-                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

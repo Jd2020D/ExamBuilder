@@ -1,14 +1,11 @@
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-
-<div>
-
-
-<h1>All Instructors</h1>
 <div class="row">
     <div class="col-8 mx-auto mt-5">
 
-<table  class="table table-bordered table-striped">
+        <table  class="table table-bordered table-striped">
     <thead class="thead-dark">
     <tr>
         <th>name</th>
@@ -21,8 +18,6 @@
 
         <tr>
             <td>${u.username}</td>
-
-            <td><a class="btn btn primary" href="/admin/editUser/${u.id}">Edit</a></td>
         </tr>
 
     </c:forEach>
@@ -32,7 +27,9 @@
 </table>
 
 
-<a href="/admin/insertUser" class="btn btn-success"> Add a User</a>
+<a href="/student/editUser" class="btn btn-primary"> Edit</a>
+
+
     </div>
 </div>
 </div>

@@ -4,17 +4,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Registration Page</title>
-</head>
-<body>
-<h1>Edit User</h1>
 
-<p><form:errors path="user.*"/></p>
+<div class="row">
+    <div class="col-4 mx-auto mt-5">
+        <div class="login-panel panel panel-success">
 
-<form:form method="POST" action="/editUser" modelAttribute="user">
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h1>Insert</h1>
+                </div>
+
+
+                <p><form:errors path="user.*"/></p>
+
+<form:form method="POST" action="/admin/editUser" modelAttribute="user">
 
     <input type="hidden" name="_method" value="put">
     <form:hidden path="id" />
@@ -45,10 +48,15 @@
 
     <input type="submit" value="Edit!"/>
 
-    <a class="btn btn-primary" href="/deleteUser/${user.id}">Delete</a>
+    <a class="btn btn-primary" href="/admin/deleteUser/${user.id}">Delete</a>
 
 </form:form>
 
+            </div>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>

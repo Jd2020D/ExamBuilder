@@ -1,20 +1,20 @@
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Registration Page</title>
-</head>
-<body>
-<h1>Insert Users!</h1>
+<div class="row">
+    <div class="col-4 mx-auto mt-5">
+        <div class="login-panel panel panel-success">
 
-<p><form:errors path="user.*"/></p>
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h1>Insert</h1>
+                </div>
 
-<form:form method="POST" action="/insertUser" modelAttribute="user">
+
+
+                <p><form:errors path="user.*"/></p>
+
+<form:form method="POST" action="/admin/insertUser" modelAttribute="user">
     <p>
         <form:label path="username">Username:</form:label>
         <form:input path="username"/>
@@ -41,6 +41,12 @@
 
     <input type="submit" value="Insert!"/>
 </form:form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 </body>
 </html>
 </body>

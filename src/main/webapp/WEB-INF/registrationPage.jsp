@@ -7,25 +7,37 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Registration Page</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 <body>
-<h1>Register!</h1>
 
-<p><form:errors path="user.*"/></p>
+<div class="row">
+    <div class="col-4 mx-auto mt-5">
+        <div class="login-panel panel panel-success">
+
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h1>Register</h1>
+                </div>
+
+
+                <p><form:errors path="user.*"/></p>
 
 <form:form method="POST" action="/registration" modelAttribute="user">
-    <p>
+   <div class="form-group">
         <form:label path="username">Username:</form:label>
         <form:input path="username"/>
-    </p>
-    <p>
+   </div>
+    <div class="form-group">
         <form:label path="password">Password:</form:label>
         <form:password path="password"/>
-    </p>
-    <p>
+    </div>
+    <div class="form-group">
         <form:label path="passwordConfirmation">Password Confirmation:</form:label>
         <form:password path="passwordConfirmation"/>
-    </p>
+    </div>
 
     <div class="form-group">
         <form:label path="selected">Role</form:label>
@@ -38,7 +50,13 @@
     </div>
 
 
-    <input type="submit" value="Register!"/>
+    <input class="btn btn-primary" type="submit" value="Register!"/>
 </form:form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
 </body>
 </html>

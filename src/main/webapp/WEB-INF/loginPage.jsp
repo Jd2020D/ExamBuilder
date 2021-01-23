@@ -5,30 +5,47 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Login Page</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 <body>
-<h1>Login</h1>
-<c:if test="${logoutMessage != null}">
-    <c:out value="${logoutMessage}"></c:out>
-</c:if>
-<h1>Login</h1>
-<c:if test="${errorMessage != null}">
-    <c:out value="${errorMessage}"></c:out>
-</c:if>
 
-<form method="POST" action="/login">
-    <p>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username"/>
-    </p>
-    <p>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password"/>
-    </p>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    <input type="submit" value="Login!"/>
+
+
+<div class="row">
+    <div class="col-4 mx-auto mt-5">
+        <div class="login-panel panel panel-success">
+
+    <c:if test="${logoutMessage != null}">
+        <c:out value="${logoutMessage}"></c:out>
+    </c:if>
+    <c:if test="${errorMessage != null}">
+        <c:out value="${errorMessage}"></c:out>
+    </c:if>
+
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h1>Login</h1>
+                </div>
+
+                <form method="POST" action="/login">
+            <p>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username"/>
+            </p>
+            <p>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"/>
+            </p>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input class=" btn btn-primary" type="submit" value="Login"/>
 </form>
 
+            </div>
+        </div>
+    </div>
 
+</div>
 </body>
 </html>
