@@ -11,7 +11,7 @@
 
             <div class="panel-body">
                 <div class="panel-heading">
-                    <h1>Insert</h1>
+                    <h1>Edit</h1>
                 </div>
 
 
@@ -46,9 +46,9 @@
     </div>
 
 
-    <input type="submit" value="Edit!"/>
+    <input class="btn btn-primary" type="submit" value="Edit!"/>
 
-    <a class="btn btn-primary" href="/admin/deleteUser/${user.id}">Delete</a>
+    <a class="btn btn-primary btn btn-danger" href="/admin/deleteUser/${user.id}">Delete</a>
 
 </form:form>
 

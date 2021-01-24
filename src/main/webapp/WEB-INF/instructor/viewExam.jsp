@@ -3,16 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<html>
-<head>
-    <title>Exam</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-</head>
-<body>
-
-
+<div class="pl-3">
 <h1> ${thisExam.title }</h1>
 <form:form  method="POST" action="/instructor/${instructor.id}/exams/${thisExam.id }/publish" modelAttribute="publishExam">
    <div style="display: none">
@@ -21,7 +13,7 @@
     <label style="visibility: hidden">s</label>
    <span style="display:block;">
       
-    <form:label path="isExtra">Extra <form:checkbox path="isExtra"/></form:label>       
+    <form:label  path="isExtra">Extra <form:checkbox path="isExtra"/></form:label>
     </span>
     </p>
     	
@@ -70,10 +62,10 @@
         </div>
     <c:choose>
 		    <c:when test="${thisExam.isPublished == true}">
-				<input type="submit" value="unPublish"/>										       
+				<input class="btn btn-warning " type="submit" value="unPublish"/>
 		    </c:when>
 		    <c:otherwise>
-				<input type="submit" value="Publish"/>										     
+				<input class="btn btn-warning" type="submit" value="Publish"/>
 		    </c:otherwise>
 	</c:choose>
 		
@@ -142,7 +134,7 @@
     <label style="visibility: hidden">s</label>
                     <span style="display:block;">
   
-     <input type="submit" value="Edit exam"/>
+     <input class="btn btn-primary" type="submit" value="Edit exam"/>
                      </span>
      
     </p>
@@ -152,7 +144,7 @@
 <form:form style="display:flex;" method="POST" action="/instructor/${instructor.id}/exams/${thisExam.id}/addq" modelAttribute="question">
         <form:label path="questionText">Question:</form:label>
         <form:input path="questionText"/>
-    <input type="submit" value="Add Question"/>
+    <input class="btn btn-primary" type="submit" value="Add Question"/>
 	<c:if test="${erroredQuestion.id == q.id}">
 		<td><form:errors path="questionText"/></td>
 	</c:if>
@@ -167,8 +159,8 @@
             		<tr>
             			<td><form:input path="questionText" value= "${q.questionText }"/></td>
 
-                        <td><input type="submit" value="Edit"/></td>
-            			<td><a name="question_${q.id}"></a><a  href="/instructor/${instructor.id }/exams/${thisExam.id }/questions/${q.id }/delete"> Delete</a></td>
+                        <td><input class="btn btn-primary btn-sm" type="submit" value="Edit"/></td>
+            			<td><a name="question_${q.id}"></a><a class="btn btn-danger btn-sm"  href="/instructor/${instructor.id }/exams/${thisExam.id }/questions/${q.id }/delete"> Delete</a></td>
                 		<c:if test="${erroredQuestion.id == q.id}">
                 		<td><form:errors path="questionText"/></td>
                 		</c:if>
@@ -177,7 +169,7 @@
             
              </form:form>
 
-                 <table class="collapse" id="collapseExample">
+                 <table >
                 	<tr>
                 	<td>is Correct</td>
                 	</tr>
@@ -185,7 +177,7 @@
                 	<form:form style="display:flex;" method="POST" action="/instructor/${instructor.id}/exams/${thisExam.id }/questions/${q.id }/adda" modelAttribute="answer">
                 		<td><form:checkbox path="isCorrect"/></td>										       
                 		<td><form:input path="text"/></td>
-                		<td><input type="submit" value="Add"/></td>
+                		<td><input class="btn btn-primary btn-sm" type="submit" value="Add"/></td>
                 		<c:if test="${answerQuestion.id == q.id}">
                 		<td><form:errors path="text"/></td>
                 		</c:if>
@@ -204,8 +196,8 @@
 										    </c:otherwise>
 										</c:choose>
                 						<td><form:input path="text" value="${a.text }" /></td>
-                						<td><input type="submit" value="Edit"/></td>
-                						<td><a name="answer_${a.id}"></a><a  href="/instructor/${instructor.id }/exams/${thisExam.id }/questions/${q.id }/answers/${a.id }/delete">Delete</a></td>
+                						<td><input class="btn btn-primary btn-sm" type="submit" value="Edit"/></td>
+                						<td><a name="answer_${a.id}"></a><a class="btn btn-danger btn-sm"  href="/instructor/${instructor.id }/exams/${thisExam.id }/questions/${q.id }/answers/${a.id }/delete">Delete</a></td>
                 						<c:if test="${erroredAnswer.id == a.id}">
 										<td><span id="text.errors">size must be between 1 and 100</span></td>				
 										</c:if>
@@ -222,6 +214,4 @@
     </c:forEach>
 
 
-
-</body>
-</html>
+</div>

@@ -11,7 +11,7 @@
 
         <div class="panel-body">
             <div class="panel-heading">
-                <h1>Insert</h1>
+                <h1>Edit</h1>
             </div>
 
 
@@ -49,7 +49,7 @@
     </div>
 
 
-    <input type="submit" value="Edit!"/>
+    <input class="btn btn-primary" type="submit" value="Edit!"/>
 
 
 </form:form>

@@ -7,7 +7,6 @@
 <head>
     <title>Exams</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
 <body>
@@ -70,11 +69,11 @@
         	
     </p>
 
-    <input type="submit" value="Make new Exam"/>
+    <input class="btn btn-primary" type="submit" value="Make new Exam"/>
     
 </form:form>
-<table>
-    <thead>
+<table class="table">
+    <thead class="thead-dark">
         <tr>
             <th>id</th>
             <th>Title</th>
@@ -99,7 +98,7 @@
             <td><c:out value="${exam.isExtra}"/></td>
             <td><c:out value="${exam.isPublished}"/></td>
             <td>
-<a href="/instructor/${instructor.id}/exams/${exam.id}/delete">
+<a class="btn btn-danger btn-sm" href="/instructor/${instructor.id}/exams/${exam.id}/delete">
 Delete
 </a>
 

@@ -2,14 +2,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
-<h1>All Students</h1>
-<div class="row">
-    <div class="col-8 mx-auto mt-5">
+<div class="container">
 
-        <table  class="table table-bordered table-striped">
-    <thead class="thead-dark">
-    <tr>
-        <th>name</th>
+
+
+    <table  class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>name</th>
+            <th>action</th>
 
     </tr>
     </thead>
@@ -28,7 +29,4 @@
 </table>
 
 
-<a href="/instructor/editUser" class="btn btn-primary"> Edit User</a>
     </div>
-</div>
-</div>

@@ -35,7 +35,7 @@
     </div>
 
 
-    <input type="submit" value="Edit!"/>
+    <input class="btn btn-primary" type="submit" value="Edit Info!"/>
 
 
 </form:form>

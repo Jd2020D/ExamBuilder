@@ -1,17 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<div>
+<div class="container">
 
 
-<h1>All Instructors</h1>
-<div class="row">
-    <div class="col-8 mx-auto mt-5">
 
-<table  class="table table-bordered table-striped">
+<table  class="table">
     <thead class="thead-dark">
     <tr>
         <th>name</th>
+        <th>action</th>
 
     </tr>
     </thead>
@@ -22,7 +20,7 @@
         <tr>
             <td>${u.username}</td>
 
-            <td><a class="btn btn primary" href="/admin/editUser/${u.id}">Edit</a></td>
+            <td><a class="btn btn-primary" href="/admin/editUser/${u.id}">Edit</a></td>
         </tr>
 
     </c:forEach>
@@ -34,5 +32,3 @@
 
 <a href="/admin/insertUser" class="btn btn-success"> Add a User</a>
     </div>
-</div>
-</div>

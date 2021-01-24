@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +29,7 @@ import com.axsos.exambuilder.services.UserService;
 import com.axsos.exambuilder.validator.EditExamValidator;
 import com.axsos.exambuilder.validator.PublishExamValidator;
 
-@RequestMapping("/instructor")
+@RequestMapping(value = {"/instructor","/admin"})
 @Controller
 public class ExamController {
 	private static int counter=0;
@@ -85,10 +86,11 @@ public class ExamController {
 		User current =this.userService.findByUsername(principal.getName());
 		return "redirect:/instructor/"+current.getId()+"/exams";
 	}
+
 	@RequestMapping(value = "/{id}/exams")
     public String createExamFormView(@PathVariable Long id,
-    		Principal principal,HttpServletRequest request,
-    		@ModelAttribute("exam") Exam exam,Model model)
+									 Principal principal, HttpServletRequest request,
+									 @ModelAttribute("exam") Exam exam, Model model, ModelMap modelMap)
     {
 		User instructor = this.userService.findById(id);
 		if(instructor==null)return redirectToExams(principal);
@@ -96,13 +98,16 @@ public class ExamController {
 		if(!isIdForTheCurrentUser(current, id) &&!(request.isUserInRole("ROLE_ADMIN")))
 			return redirectToExams(principal);
 		model.addAttribute("instructor",instructor);
-		return "instructor/exams.jsp";
+		modelMap.addAttribute("page","/WEB-INF/instructor/exams.jsp");
+		modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+		return "template.jsp";
     }
 	
 	@RequestMapping(value = "/{id}/exams",method=RequestMethod.POST)
     public String createExamForm( @PathVariable Long id,
     		Principal principal,Model model,HttpServletRequest request,
-    		@Valid @ModelAttribute("exam") Exam exam,BindingResult result)
+    		@Valid @ModelAttribute("exam") Exam exam,BindingResult result,ModelMap modelMap)
     {
 		User instructor = this.userService.findById(id);
 		if(instructor==null)return redirectToExams(principal);
@@ -111,7 +116,11 @@ public class ExamController {
 			return redirectToExams(principal);
 		model.addAttribute("instructor",instructor);
 		if(result.hasErrors()) {
-			return "instructor/exams.jsp";
+			modelMap.addAttribute("page","/WEB-INF/instructor/exams.jsp");
+			modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+			return "template.jsp";
+
 		}
     	Exam newExam =this.examService.createExamForm(exam, instructor);
 		
@@ -121,7 +130,7 @@ public class ExamController {
 	@RequestMapping(value = "/{id}/exams/{examId}")
     public String viewExam(@PathVariable Long id,@PathVariable Long examId,
     		Principal principal,@ModelAttribute("exam") Exam update,@ModelAttribute("publishExam") Exam publish,
-    		@ModelAttribute("question") Question question,@ModelAttribute("answer") Answer answer,Model model)
+    		@ModelAttribute("question") Question question,@ModelAttribute("answer") Answer answer,Model model,ModelMap modelMap)
     {
 		User instructor =this.userService.findByUsername(principal.getName());
 		if(!isIdForTheCurrentUser(instructor, id))
@@ -133,7 +142,12 @@ public class ExamController {
 		model.addAttribute("thisExam",exam);
 		model.addAttribute("exam",exam);
 		model.addAttribute("publishExam",exam);
-		return "instructor/viewExam.jsp";
+
+		modelMap.addAttribute("page","/WEB-INF/instructor/viewExam.jsp");
+		modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+		return "template.jsp";
+
     }
 //	@RequestMapping(value = "/{id}/exams/{examId}/publish",method=RequestMethod.POST)
 //    public String publishExam(@PathVariable Long id,@PathVariable Long examId,
@@ -256,6 +270,7 @@ public class ExamController {
 			@Valid @ModelAttribute("answer") Answer answerUpdate,BindingResult updateAnswerResult,
     		BindingResult result,
     		Model model,
+			ModelMap modelMap,
 			Principal principal) {
 			User instructor = this.userService.findById(id);
 		if(instructor==null)return redirectToExams(principal);
@@ -276,7 +291,12 @@ public class ExamController {
 			editExamValidator.validate(exam, publishExamResult);
 			model.addAttribute("exam",exam);
 			if(publishExamResult.hasFieldErrors("isPublished")) {
-				return "instructor/viewExam.jsp";
+				modelMap.addAttribute("page","/WEB-INF/instructor/viewExam.jsp");
+				modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+				return "template.jsp";
+
+
 			}
 			this.examService.changePublish(exam);
 			publishFlag=true;
@@ -287,23 +307,35 @@ public class ExamController {
 				if(request.getRequestURI().endsWith("addq"))
 				{
 					model.addAttribute("exam",exam);
-					if(updateQuestionResult.hasErrors())
-						return "instructor/viewExam.jsp";
+					if(updateQuestionResult.hasErrors()) {
+						modelMap.addAttribute("page", "/WEB-INF/instructor/viewExam.jsp");
+						modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+						return "template.jsp";
+					}
 					question=this.examService.addQuestion(questionUpdate, exam);
 					return "redirect:/instructor/"+instructor.getId()+"/exams/"+exam.getId()+"/#question_"+question.getId();
 				}
 
 				if(request.getRequestURI().endsWith("update"))
 				{
-					if(updateExamResult.hasErrors())
-						return "instructor/viewExam.jsp";
-					this.examService.updateExam(exam,update);
+					if(updateExamResult.hasErrors()) {
+						modelMap.addAttribute("page","/WEB-INF/instructor/viewExam.jsp");
+						modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+						return "template.jsp";
+					}					this.examService.updateExam(exam,update);
 				}
 				else if(request.getRequestURI().endsWith("publish")&&!publishFlag)
 				{
 					publishExamValidator.validate(exam, publishExamResult);
-			        if(publishExamResult.hasErrors()) 
-			    		return "instructor/viewExam.jsp";
+			        if(publishExamResult.hasErrors()) {
+						modelMap.addAttribute("page","/WEB-INF/instructor/viewExam.jsp");
+						modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+						return "template.jsp";
+
+					}
 			        this.examService.changePublish(exam);
 				}
 				 
@@ -319,16 +351,25 @@ public class ExamController {
 				if(request.getRequestURI().endsWith("update"))
 				{
 					model.addAttribute("erroredQuestion",question);
-					if(updateQuestionResult.hasErrors())
-						return "instructor/viewExam.jsp";
+					if(updateQuestionResult.hasErrors()) {
+						modelMap.addAttribute("page","/WEB-INF/instructor/viewExam.jsp");
+						modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+						return "template.jsp";
+					}
 					this.examService.updateQuestion(question, questionUpdate);
 					return "redirect:/instructor/"+instructor.getId()+"/exams/"+exam.getId()+"/#question_"+questionId.get();
 				}
 				else if(request.getRequestURI().endsWith("adda"))
 				{
 					model.addAttribute("answerQuestion",question);
-					if(updateAnswerResult.hasErrors())
-					return "instructor/viewExam.jsp";
+					if(updateAnswerResult.hasErrors()) {
+						modelMap.addAttribute("page","/WEB-INF/instructor/viewExam.jsp");
+						modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+						return "template.jsp";
+
+					}
 					answer=this.examService.addAnswer(answerUpdate,question);
 					return "redirect:/instructor/"+instructor.getId()+"/exams/"+exam.getId()+"/#answer_"+answer.getId();
 				}
@@ -339,8 +380,13 @@ public class ExamController {
 			{
 				model.addAttribute("exam",exam);
 				model.addAttribute("erroredAnswer",answer);
-				if(result.hasErrors())
-					return "instructor/viewExam.jsp";
+				if(result.hasErrors()) {
+					modelMap.addAttribute("page","/WEB-INF/instructor/viewExam.jsp");
+					modelMap.addAttribute("nav","/WEB-INF/instructor/nav.jsp");
+
+					return "template.jsp";
+
+				}
 				this.examService.updateAnswer(answer, answerUpdate);
 				return "redirect:/instructor/"+instructor.getId()+"/exams/"+exam.getId()+"/#answer_"+answerId.get();
 			}
