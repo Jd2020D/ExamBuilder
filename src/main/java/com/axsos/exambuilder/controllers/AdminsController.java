@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -31,7 +32,7 @@ public class AdminsController {
 
     @RequestMapping("/admin/{users}")
     public String viewAll(ModelMap modelMap,Model model, @PathVariable("users")String users) {
-        if (users.equals("admins")) {
+    	if (users.equals("admins")) {
             model.addAttribute("users", adminService.findAllByRole("ROLE_ADMIN"));
         }
         if (users.equals("instructors")) {
@@ -60,17 +61,15 @@ public class AdminsController {
 
 
 
-
-    @RequestMapping(value = "/admin/deleteUser/{id}" )
+    @ResponseBody
+    @RequestMapping(value = "/admin/deleteUser/{id}",method=RequestMethod.DELETE )
     public String deleteShow(@PathVariable("id") Long user_id, HttpSession session,ModelMap modelMap)
 
     {
-
         adminService.deleteUser(user_id);
-        modelMap.addAttribute("nav","/WEB-INF/admin/nav.jsp");
-
-        return "template.jsp";
+        return String.valueOf(user_id) ;
     }
+
     @RequestMapping("/admin/editUser/{id}")
     public String editUserForm(@ModelAttribute("user") User user , ModelMap modelMap,Model model, @PathVariable("id") Long user_id) {
         model.addAttribute("allRoles", AllRoles.Roles);
@@ -84,27 +83,36 @@ public class AdminsController {
     }
 
 
-    @PutMapping("/admin/editUser")
-    public String editUser(@Valid @ModelAttribute("user") User user, BindingResult result, Model model,ModelMap modelMap ) {
+    @RequestMapping(value="/admin/editUser/",method=RequestMethod.PUT)
+    public String editUser(
+                            @Valid @ModelAttribute("user") User user,
+                            BindingResult result,
+                            Model model,ModelMap modelMap,
+                            RedirectAttributes redirectAttributes) {
         userValidator.validate(user, result);
         modelMap.addAttribute("nav","/WEB-INF/admin/nav.jsp");
 
         if (result.hasErrors()) {
-
-            modelMap.addAttribute("page","/WEB-INF/admin/editUser.jsp");
-
-               return "template.jsp";
+            redirectAttributes.addFlashAttribute("errors",result.getFieldErrors());
+            // modelMap.addAttribute("page","/WEB-INF/admin/editUser.jsp");
+            return "redirect:/admin/editUser/"+user.getId();
         }
-        if (user.getSelected().equals("ROLE_ADMIN"))
+        if (user.getSelected().equals("ROLE_ADMIN")){
             adminService.saveUserWithAdminRole(user);
+            return "redirect:/admins";
+        }
 
         else if (user.getSelected().equals("ROLE_INSTRUCTOR"))
-            adminService.saveWithInstructorRole(user);
+{            adminService.saveWithInstructorRole(user);
+                return "redirect:/instructors";
 
+}
         else if (user.getSelected().equals("ROLE_STUDENT"))
-            adminService.saveWithStudentRole(user);
+{            adminService.saveWithStudentRole(user);
+                return "redirect:/students";
 
-        return "template.jsp";
+}
+return "template.jsp";
 
     }
 
@@ -133,14 +141,21 @@ public class AdminsController {
 
             return "template.jsp";
         }
-        if (user.getSelected().equals("ROLE_ADMIN"))
+        if (user.getSelected().equals("ROLE_ADMIN")){
             adminService.saveUserWithAdminRole(user);
+            return "redirect:/admins";
+        }
 
         else if (user.getSelected().equals("ROLE_INSTRUCTOR"))
-            adminService.saveWithInstructorRole(user);
+{            adminService.saveWithInstructorRole(user);
+                return "redirect:/instructors";
 
+}
         else if (user.getSelected().equals("ROLE_STUDENT"))
-            adminService.saveWithStudentRole(user);
+{            adminService.saveWithStudentRole(user);
+                return "redirect:/students";
+
+}
 
 
         return "template.jsp";

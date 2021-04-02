@@ -56,4 +56,11 @@ public class UserService {
     public List<User> all() {
         return userRepository.findAll();
     }
+    public List<User> allRoleUsers(String role){
+    	return userRepository.findUsersByRoleName(role);
+    }
+    public List<User> examStudents(Long examId){
+    	return userRepository.findStudentsByExamId(examId);
+    }
+    
 }

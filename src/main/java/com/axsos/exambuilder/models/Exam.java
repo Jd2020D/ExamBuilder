@@ -52,8 +52,10 @@ public class Exam {
 		this.title = title;
 		this.markFrom = markFrom;
 		this.examDay = examDay;
-		this.examDay.setHours(examHour.getHours());
-		this.examDay.setMinutes(examHour.getMinutes());
+		if(this.examHour!=null){
+			this.examDay.setHours(examHour.getHours());
+			this.examDay.setMinutes(examHour.getMinutes());	
+		}
 		this.duration = duration;
 		this.isExtra = isExtra;
 	}
@@ -62,8 +64,10 @@ public class Exam {
 		this.title = exam.title;
 		this.markFrom = exam.markFrom;
 		this.examDay = exam.examDay;
-		this.examDay.setHours(exam.examHour.getHours());
-		this.examDay.setMinutes(exam.examHour.getMinutes());
+		if(exam.examHour!=null){
+			this.examDay.setHours(exam.examHour.getHours());
+			this.examDay.setMinutes(exam.examHour.getMinutes());	
+		}
 		this.duration = exam.duration;
 		this.isExtra = exam.isExtra;
 		this.user = exam.user;
@@ -72,14 +76,19 @@ public class Exam {
 	private String title;
 	@Min(5)@Max(100)@NotNull
     private Integer markFrom;
-    @FutureOrPresent@NotNull
+//    @FutureOrPresent
+	@NotNull
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date examDay;
-    @DateTimeFormat(pattern="HH:mm")
-    @Transient	
+
+	@Transient
+	@DateTimeFormat(pattern="HH:mm")
     private Date examHour;
     public Date getExamHour() {
 		return examDay;
+	}
+	public Date getBB() {
+		return examHour;
 	}
 
 	public void setExamHour(Date examHour) {
@@ -207,7 +216,7 @@ public class Exam {
     	return temp.subList(0, numOfQuestions);
     }
     public String getExamTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");  
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm aa");  
 
     	return formatter.format(this.examDay);
     	

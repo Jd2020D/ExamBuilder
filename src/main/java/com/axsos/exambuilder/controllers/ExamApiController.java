@@ -3,6 +3,7 @@ package com.axsos.exambuilder.controllers;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import com.axsos.exambuilder.services.UserService;
 
 
 @RestController 
-@RequestMapping("/api/instructors")
+@RequestMapping("/instructor/api")
 public class ExamApiController {
 	private final ExamService examService;
 	private final UserService userService;
@@ -45,6 +46,14 @@ public class ExamApiController {
     		return this.examService.createExamForm(new Exam(title, markFrom, examDay, examHour, duration, isExtra), instructor);	
 		return null;
     }
+	@RequestMapping("/2/exams/1/test/test")
+	public long testets() {
+		Date d =new Date();
+//		return d;
+//        long minutes  = TimeUnit.MILLISECONDS.toMinutes(d.getTime()-this.examService.getExamById(5L,2L).getExamDay().getTime()); 
+		return this.examService.getExamById(5L,2L).getExamDay().compareTo(d);
+//        return minutes;
+	}
 
 
 

@@ -1,4 +1,5 @@
 package com.axsos.exambuilder.repositories;
+import java.util.List;
 
 import com.axsos.exambuilder.models.Exam;
 
@@ -10,5 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ExamRepository extends CrudRepository<Exam, Long> {
     @Query("SELECT d FROM Exam d WHERE id = ?1 and user_id = ?2")
 	Exam findByIdAndUserId(Long examId,Long instructorId);
+    @Query("SELECT d FROM Exam d WHERE isExtra = ?1")
+	List <Exam> allExtras(Boolean isExtra);
 
 }

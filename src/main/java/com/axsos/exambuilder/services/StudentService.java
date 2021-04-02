@@ -1,29 +1,28 @@
 package com.axsos.exambuilder.services;
 
-import com.axsos.exambuilder.models.User;
-import com.axsos.exambuilder.repositories.RoleRepository;
-import com.axsos.exambuilder.repositories.StudentExamRepository;
-import org.springframework.data.jpa.repository.Query;
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.axsos.exambuilder.models.User;
+import com.axsos.exambuilder.repositories.RoleRepository;
+import com.axsos.exambuilder.repositories.StudentExamRepository;
 import com.axsos.exambuilder.repositories.UserRepository;
-
-import java.util.List;
 
 @Service
 public class StudentService {
-
+	private  final StudentExamRepository studentExamRepository;
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-  private  final StudentExamRepository studentExamRepository;
+
 	public StudentService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, StudentExamRepository studentExamRepository)
 	{
+		this.studentExamRepository = studentExamRepository;
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-		this.studentExamRepository = studentExamRepository;
 	}
 
 	public List<User> findAllByRole(String role){
@@ -32,6 +31,10 @@ public class StudentService {
 
 
 
+	public List<Object[]> top5(){
+
+		return studentExamRepository.top5();
+	}
 
 	public User saveWithStudentRole(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -58,12 +61,6 @@ public class StudentService {
 
 	public List<User> all() {
 		return userRepository.findAll();
-	}
-
-
-	public List<Object[]> top5(){
-
-		return studentExamRepository.top5();
 	}
 
 }

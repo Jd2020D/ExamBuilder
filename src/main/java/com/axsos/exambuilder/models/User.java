@@ -13,10 +13,8 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Size(min=3, message="Username must be greater than 3 characters")
-
     private String username;
-    @Size(min=3, message="Username must be greater than 3 characters")
-
+    @Size(min=8, message="Password must be greater than 8 characters")
     private String password;
     @Transient
     private String passwordConfirmation;

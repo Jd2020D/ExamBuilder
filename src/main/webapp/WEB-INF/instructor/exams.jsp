@@ -3,76 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<html>
-<head>
-    <title>Exams</title>
-
-
-</head>
-<body>
-
-
-<form:form style="display:flex;" method="POST" action="/instructor/${instructor.id}/exams" modelAttribute="exam">
-    <h1 style="display:inline;">Create Exam
-    <p style="font-size:14;margin-left:40px;">             
-           <form:label path="isExtra">Is it Extra Exam?:</form:label>
-                <form:errors path="isExtra"/>
-             <form:checkbox path="isExtra"/>
-    </p>
-    </h1>
-    	
-    <p >
-        <form:label path="title">Title:</form:label>
-                        <form:errors path="title"/>
-        
-        <span style="display:block;">
-        <form:input path="title"/>
-        
-        </span>
-    </p>		
-    
-    <p>
-        <form:label path="markFrom">Mark:</form:label>
-                <span style="display:block;">
-        
-        <form:errors path="markFrom"/>
-        <form:input path="markFrom"/>
-                </span>
-        
-    </p>
-    <p>
-        <form:label path="examDay">Exam Day:</form:label>
-                <span style="display:block;">
-        
-        <form:errors path="examDay"/>
-        <form:input type="date" path="examDay"/>
-    </p>
-    <p>
-        <form:label path="examHour">Exam Hour:</form:label>
-                <span style="display:block;">
-        
-        <form:errors path="examHour"/>
-        <form:input type="time" path="examHour"/>
-                </span>
-        
-    </p>
-    <p>
-        <form:label path="duration">Duration:</form:label>
-                <span style="display:block;">
-        
-        <form:errors path="duration"/>
-        <form:input path="duration"/>
-                </span>
-        
-    </p>
-    <p>
-        	
-    </p>
-
-    <input class="btn btn-primary" type="submit" value="Make new Exam"/>
+<form:form class="needs-validation"   method="POST" action="/instructor/${instructor.id}/exams" modelAttribute="exam" >
+<h1>Create Exam</h1>
+    <%@ include file = "examFormInputs.jsp" %>
+        <input class="btn btn-success" type="submit" value="Make new Exam"/>  
+      </div>
+    </div>
     
 </form:form>
-<table class="table">
+<div class="overflow-auto table-light">
+  <table class="table">
     <thead class="thead-dark">
         <tr>
             <th>id</th>
@@ -83,7 +23,7 @@
             <th>Date</th>
             <th>Extra</th>
             <th>Published</th>
-            <th>Action</th>	
+            <th>Actions</th>	
         </tr>
     </thead>
     <tbody>
@@ -97,11 +37,15 @@
             <td><c:out value="${exam.getExamDate()}"/></td>
             <td><c:out value="${exam.isExtra}"/></td>
             <td><c:out value="${exam.isPublished}"/></td>
-            <td>
-<a class="btn btn-danger btn-sm" href="/instructor/${instructor.id}/exams/${exam.id}/delete">
-Delete
-</a>
-
+            <td >
+              <form id="delete-form"  action="/instructor/${instructor.id}/exams/${exam.id}" method="post">
+                <a class="btn btn-secondary  btn-sm" href="/instructor/${instructor.id }/exams/${exam.id }">View</a>
+                <a class="btn btn-warning  btn-sm" href="/instructor/${instructor.id }/exams/${exam.id }">Edit</a>  
+                <input type="hidden" name="_method" value="delete">
+                <input type="hidden"name="${_csrf.parameterName}"  value="${_csrf.token}"/>            
+                <button class="btn btn-danger btn-sm" type="submit" >Delete</button>
+              </form>
+        
 			</td>
         </tr>
         </c:forEach>
@@ -109,8 +53,16 @@ Delete
 </table>
 
 
+</div>
+<script>
+  $("form input").map(function(item,index){
+  if($("#"+$(this).attr("id")+"\\.errors").val()!==undefined){
+    $(this).addClass("is-invalid")
+  }
+  else {
+    $(this).removeClass("is-invalid")
+  }
+});
 
+</script>
 
-
-</body>
-</html>

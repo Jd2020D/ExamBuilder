@@ -1,6 +1,7 @@
 package com.axsos.exambuilder.validator;
 
 import java.util.List;
+import java.util.Date;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -26,7 +27,13 @@ public class PublishExamValidator implements Validator {
     public void validate(Object object, Errors errors) {
         Exam exam = (Exam) object;
         boolean first=false,sec=false,third=false;
+		Date now =new Date();
 
+		if(exam.getExamDay().compareTo(now) <=0 )
+		{
+
+			errors.rejectValue("isPublished", "ExamTime");       	
+		}
         List<Question> questions=exam.getQuestions();
         if(questions.size()<5)
     		errors.rejectValue("isPublished", "LessThanFive");

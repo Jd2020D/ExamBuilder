@@ -1,15 +1,34 @@
 
-<ul class="navbar-nav ml-auto">
-    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/admin/admins">Admins</a></li>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
-    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/admin/instructors">Instructors</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark ">
+    <a class="navbar-brand" href="#">
+        
+        <img src="/img/exam.png" width="30" height="30" class="d-inline-block align-top" alt=""> Admin
+    </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a  class="nav-link" href="/students">Students <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item" >
+        <a  class="nav-link" href="/instructors">Instructors</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link ${examsPage}" href="/exams" >Exams </a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link " href="/instructor/exams">MyExams</a>
+      </li>
 
-    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/admin/students">Students</a></li>
-
-
-    <li class="nav-item mx-0 mx-lg-1"> <form id="logoutForm" method="POST" action="/logout">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <input class="nav-link py-2 px-0 px-lg-3 rounded js-scroll-trigger" type="submit" value="Logout!" />
-    </form>
-    </li>
-</ul>
+    </ul>
+  </div>
+  <form class="form-inline my-2 my-lg-0" id="logoutForm" method="POST" action="/logout">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <button id="logout-button" class="btn  my-2 my-sm-0" type="submit">Logout</button>
+</form>
+</nav>
+    

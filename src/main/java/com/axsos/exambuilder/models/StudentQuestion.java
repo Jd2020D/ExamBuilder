@@ -44,8 +44,8 @@ public class StudentQuestion {
     @JoinColumn(name="question_id")
     private Question question;
 
-//    @OneToMany(mappedBy="studentQuestion", fetch = FetchType.LAZY)
-//    private List<StudentAnswer> studentsAnswers;
+    @OneToMany(mappedBy="studentQuestion", fetch = FetchType.LAZY)
+    private List<StudentAnswer> studentsAnswers;
     
 	public Long getId() {
 		return id;
@@ -87,20 +87,20 @@ public class StudentQuestion {
 		this.question = question;
 	}
 
-//	public List<StudentAnswer> getStudentsAnswers() {
-//		return studentsAnswers;
-//	}
-//
-//	public void setStudentsAnswers(List<StudentAnswer> studentsAnswers) {
-//		this.studentsAnswers = studentsAnswers;
-//	}
-
-	public StudentAnswer getChosedAnswer() {
-		return chosedAnswer;
+	public List<StudentAnswer> getStudentsAnswers() {
+		return studentsAnswers;
 	}
 
-	public void setChosedAnswer(StudentAnswer chosedAnswer) {
-		this.chosedAnswer = chosedAnswer;
+	public void setStudentsAnswers(List<StudentAnswer> studentsAnswers) {
+		this.studentsAnswers = studentsAnswers;
+	}
+
+	public Long getChosedAnswerId() {
+		return chosedAnswerId;
+	}
+
+	public void setChosedAnswerId(Long chosedAnswerId) {
+		this.chosedAnswerId = chosedAnswerId;
 	}
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -117,9 +117,8 @@ public class StudentQuestion {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="student_answer_id")
-	private StudentAnswer chosedAnswer;
+
+	private Long chosedAnswerId=null;
 	 ///    private User teacher;
 	
 

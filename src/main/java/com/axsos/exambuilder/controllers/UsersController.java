@@ -1,11 +1,12 @@
 package com.axsos.exambuilder.controllers;
 
-import com.axsos.exambuilder.models.AllRoles;
-import com.axsos.exambuilder.models.User;
-import com.axsos.exambuilder.services.RoleService;
-import com.axsos.exambuilder.services.StudentService;
-import com.axsos.exambuilder.services.UserService;
-import com.axsos.exambuilder.validator.UserValidator;
+import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -14,35 +15,45 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import javax.servlet.http.HttpServletRequest;
+import com.axsos.exambuilder.models.Exam;
+import com.axsos.exambuilder.services.ExamService;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.security.Principal;
-import java.util.List;
+import com.axsos.exambuilder.models.AllRoles;
+import com.axsos.exambuilder.models.User;
+import com.axsos.exambuilder.services.RoleService;
+import com.axsos.exambuilder.services.StudentService;
+import com.axsos.exambuilder.services.UserService;
+import com.axsos.exambuilder.validator.UserValidator;
 
 @Controller
 public class UsersController {
 
     private UserService userService;
-
+    private ExamService examService;
     private RoleService roleService;
+    private StudentService studentService;
 
     // NEW
     private UserValidator userValidator;
-    private StudentService studentService;
+
     // NEW
-    public UsersController(UserService userService, RoleService roleService, UserValidator userValidator,StudentService studentService) {
+    public UsersController(UserService userService,ExamService examService,
+    		StudentService studentService,RoleService roleService, UserValidator userValidator) {
         this.userService = userService;
         this.roleService = roleService;
         this.userValidator = userValidator;
         this.studentService=studentService;
+        this.examService=examService;
+
     }
     @RequestMapping("/registration")
-    public String registerForm(@Valid @ModelAttribute("user") User user ,Model model,ModelMap modelMap) {
+    public String registerForm(@Valid @ModelAttribute("user") User user ,
+    		Model model,ModelMap modelMap) {
             model.addAttribute("allRoles", AllRoles.Roles);
 
-
-        modelMap.addAttribute("page","/WEB-INF/registrationPage.jsp");
+            modelMap.addAttribute("page","/WEB-INF/registrationPage.jsp");
             return "template.jsp";
 
     }
@@ -50,13 +61,13 @@ public class UsersController {
 
 
     @PostMapping("/registration")
-    public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session,ModelMap modelMap) {
+    public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session,
+    		ModelMap modelMap) {
         userValidator.validate(user, result);
 
             if (result.hasErrors()) {
-
-                modelMap.addAttribute("page","/WEB-INF/registrationPage.jsp");
-              return "template.jsp";
+	            modelMap.addAttribute("page","/WEB-INF/registrationPage.jsp");
+	            return "template.jsp";
                }
 
 
@@ -83,30 +94,29 @@ public class UsersController {
         return "redirect:/admin/instructors";
     }
 
-
     @RequestMapping("/login")
-    public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model,ModelMap modelMap) {
+    public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout,
+    		Model model,ModelMap modelMap) {
         if(error != null) {
             model.addAttribute("errorMessage", "Invalid Credentials, Please try again.");
         }
 
         if(logout != null) {
-            model.addAttribute("logoutMessage", "Logout Successful!");
+            model.addAttribute("logoutMessage", "Logout Successfully!");
         }
 
-        List<Object[]> students = studentService.top5();
-        Object[] student = students.get(0);
-        Object name = student[0];
-        Object mark = student[1];
-        System.out.println(name);
-        System.out.println(mark);
 
-        modelMap.addAttribute("page","/WEB-INF/loginPage.jsp");
-        return "template.jsp";
+        // List<Object[]> students = studentService.top5();
+        // Object[] student = students.get(0);
+        // Object name = student[0];
+        // Object mark = student[1];
+        // System.out.println(name);
+        // System.out.println(mark);
+
+
+        return "loginPage.jsp";
+
     }
-
-
-
 
     @RequestMapping("/chart")
     public String chart(Model model) {
@@ -140,7 +150,6 @@ public class UsersController {
             modelMap.addAttribute("nav","/WEB-INF/admin/nav.jsp");
 
         }
-
         if (user.getRoles().contains(roleService.findByName("ROLE_INSTRUCTOR").get(0))) {
             modelMap.addAttribute("nav", "/WEB-INF/instructor/nav.jsp");
 
@@ -149,11 +158,52 @@ public class UsersController {
             modelMap.addAttribute("nav", "/WEB-INF/student/nav.jsp");
 
         }
-
         return "template.jsp";
 
 
     }
 
+    @RequestMapping("/students")
+    public String viewAllStudents(Model model,  Principal principal,ModelMap modelMap)
+    {
+
+        // User user= studentService.findByUsername(principal.getName());
+        // model.addAttribute("user_id",user.getId());
+        model.addAttribute("users", studentService.findAllByRole("ROLE_STUDENT"));
+        modelMap.addAttribute("page","/WEB-INF/showUsers.jsp");
+        return "template.jsp";
+
+
+    }
+    @RequestMapping("/instructors")
+    public String viewAllInstructors(Model model,  Principal principal,ModelMap modelMap)
+    {
+
+        // User user= studentService.findByUsername(principal.getName());
+        // model.addAttribute("user_id",user.getId());
+        model.addAttribute("users", studentService.findAllByRole("ROLE_INSTRUCTOR"));
+        modelMap.addAttribute("page","/WEB-INF/showUsers.jsp");
+        return "template.jsp";
+
+
+    }
+    @RequestMapping(value = "/extras")
+    public String viewAllExtraExams(
+    		Principal principal,HttpServletRequest request,
+    		Model model,ModelMap modelMap)
+    {
+		List<Exam> allExtraExams=this.examService.getAllExtraExams();
+		User user =this.userService.findByUsername(principal.getName());
+		if(request.isUserInRole("ROLE_STUDENT")){
+			allExtraExams=allExtraExams
+			.stream()
+			.filter(exam->!user.getStudentExams().stream()
+			.anyMatch(studentExam->studentExam.getExam().getId()==exam.getId()))
+			.collect(Collectors.toList());
+		}
+		model.addAttribute("extraExams",allExtraExams);
+		modelMap.addAttribute("page","/WEB-INF/extras.jsp");
+		return "template.jsp";
+    }
 
 }

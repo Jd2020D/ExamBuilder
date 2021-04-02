@@ -15,11 +15,16 @@
                 </div>
 
 
-                <p><form:errors path="user.*"/></p>
+                <p>
+                <c:forEach items="${errors}" var="error">
+                   ${error.getField()} : ${error.getDefaultMessage()} 
+                    <c:out value="${error.defaultMessage}" />
+                </c:forEach>
+                </p>
 
-<form:form method="POST" action="/admin/editUser" modelAttribute="user">
-
+<form:form method="POST" action="/admin/editUser/" modelAttribute="user">
     <input type="hidden" name="_method" value="put">
+
     <form:hidden path="id" />
 
     <p>
@@ -38,17 +43,24 @@
     <div class="form-group">
         <form:label path="selected">Role</form:label>
         <form:errors path="selected"/>
-        <form:select path="selected">
+        <form:select  path="selected" id="roles">
             <c:forEach items="${ allRoles }" var="r">
-                <option value="${ r }">${ r }</option>
+                <c:choose>
+                    <c:when test="${user.roles[0].name == r}">
+                        <option value="${ r }" selected>${ r }</option>
+                    </c:when>
+                    <c:otherwise>
+                        <option value="${ r }" >${ r }</option>
+                    </c:otherwise>
+                </c:choose>
+
             </c:forEach>
         </form:select>
     </div>
 
 
     <input class="btn btn-primary" type="submit" value="Edit!"/>
-
-    <a class="btn btn-primary btn btn-danger" href="/admin/deleteUser/${user.id}">Delete</a>
+    <%@ include file = "DeleteUserBtn.jsp" %>
 
 </form:form>
 
@@ -57,7 +69,27 @@
 
     </div>
 </div>
+<script>
+    changeRedirectUrl=function(role){
+        switch(role){
+            case "ROLE_STUDENT":
+            $("#deleteUser").attr("href","/students");
+            break;
+            case "ROLE_ADMIN":
+            $("#deleteUser").attr("href","/admins");
+            break;
+            case "ROLE_INSTRUCTOR":
+            $("#deleteUser").attr("href","/instructors");
+            break;
+            
+        }
 
+    }
+    changeRedirectUrl($("#roles").val())
+    $("#roles").change(function(e){
+        changeRedirectUrl($(this).val());
+    })
+</script>
 </body>
 </html>
 </body>
