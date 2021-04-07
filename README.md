@@ -90,7 +90,7 @@ Student could view the published exams that been added to it.
 * After submitting the exam , the exam will apear in the results table with the student mark .
 ![Desktop Screenshot 2021 04 07 - 14 35 01 16](https://user-images.githubusercontent.com/74168043/113860266-81a35200-97ae-11eb-8e56-63e10b500f0f.png)
 
-Student could add or withdraw from extra exams without needed to add him by the instructor.
+Student could add or withdraw from extra exams without needed to be added by the instructor.
 
 ![Desktop Screenshot 2021 04 07 - 01 36 16 79](https://user-images.githubusercontent.com/74168043/113860716-05f5d500-97af-11eb-8d95-3b8625bd1ae3.png)
 ![Desktop Screenshot 2021 04 07 - 14 35 01 16](https://user-images.githubusercontent.com/74168043/113860763-15751e00-97af-11eb-929b-8ea1e3492b8b.png)
