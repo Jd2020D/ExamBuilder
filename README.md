@@ -1,5 +1,5 @@
 <h1>Definition</h1>
-<p>ExamBuilder is a platform build based on Spring Boot framework that contains Admins,Instructors and Students, Where the instructors could create exams with bank of questions and answers ,
+<p>ExamBuilder is a platform based on Spring Boot framework that contains Admins,Instructors and Students, Where the instructors could create exams with bank of questions and answers ,
 Then each student assigned to a specifiec exam will have his own copy of questions and answers that been picked randomly from questions bank,
 and each exam has its end countdown timer where the student should answer all the questions before the exam timed out!</p>
 
