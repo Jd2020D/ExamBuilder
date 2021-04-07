@@ -7,9 +7,9 @@ and each exam has its end countdown timer where the student should answer all th
 ![Untitled](https://user-images.githubusercontent.com/74168043/113866240-c1216c80-97b5-11eb-8620-f9f66ea0f4bf.png)
 
 <h1>Technologies used:</h1>
-- Front-End : JSP,HTML,CSS,Bootstrap,JS,AJAX,JQUERY
-- Back-End : Spring Boot
-- Database : MySQL
+<p>- Front-End : JSP,HTML,CSS,Bootstrap,JS,AJAX,JQUERY</p>
+<p>- Back-End : Spring Boot</p>
+<p>- Database : MySQL</p>
 
 
 <h2>Admin</h2>
