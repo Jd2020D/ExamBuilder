@@ -19,6 +19,12 @@
     <ul id="navBarList" class="navbar-nav">
       <security:authorize access="hasAnyRole('ADMIN')">  
         <li id="instructorsNav" class="nav-item" >
+          <a  class="nav-link" href="/admins">Admins</a>
+        </li>
+      </security:authorize>                
+
+      <security:authorize access="hasAnyRole('ADMIN')">  
+        <li id="instructorsNav" class="nav-item" >
           <a  class="nav-link" href="/instructors">Instructors</a>
         </li>
       </security:authorize>                
@@ -27,31 +33,35 @@
       <li id="studentsNav" class="nav-item active">
         <a  class="nav-link" href="/students">Students</a>
       </li>
+    </security:authorize>      
+    <security:authorize access="hasAnyRole('ADMIN')">  
+      <li id="instructorsNav" class="nav-item" >
+        <a  class="nav-link" href="/addUser">Add User</a>
+      </li>
     </security:authorize>                
+        
     <security:authorize access="hasAnyRole('INSTRUCTOR')">  
       <li id="examsNav" class="nav-item">
         <a  class="nav-link ${examsPage}" href="/instructor/exams" >My Exams</a>
-      </li>
-    </security:authorize>                
-    <security:authorize access="hasAnyRole('ADMIN')">  
-      <li id="examsNav" class="nav-item">
-        <a  class="nav-link ${examsPage}" href="/admin/exams" >Exams</a>
       </li>
     </security:authorize>                
       <security:authorize access="hasAnyRole('STUDENT')">  
       <li id="myExamsNav" class="nav-item">
         <a  class="nav-link " href="/student/exams">My Exams</a>
       </li>
-      </security:authorize>                
+      </security:authorize>   
+      <security:authorize access="hasAnyRole('STUDENT','INSTRUCTOR')">               
       <li id="myExamsNav" class="nav-item">
         <a  class="nav-link " href="/extras">Extra Exams</a>
       </li>
+      </security:authorize>
 
     </ul>
   </div>
+  <h6 id="user-full-name" class="text-light m-3 "></h6>
+
   <form class="form-inline my-2 my-lg-0" id="logoutForm" method="POST" action="/logout">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <button id="logout-button" class="btn  my-2 my-sm-0" type="submit">Logout</button>
 </form>
 </nav>
-    

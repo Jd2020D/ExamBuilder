@@ -44,6 +44,20 @@
             
         }
         });
+        $.ajax({
+                url:"/getName",
+                method: 'GET',
+                success: function(serverResponse){
+                    try{
+                       $("#user-full-name").text(serverResponse);
+                    }catch(e){
+                    }
+                },
+                error:function(error){
+                    console.log(error)
+                }
+            })
+
 </script>
 
 

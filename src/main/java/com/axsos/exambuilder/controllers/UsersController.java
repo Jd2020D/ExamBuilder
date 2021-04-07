@@ -2,6 +2,7 @@ package com.axsos.exambuilder.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpServletRequest;
 import com.axsos.exambuilder.models.Exam;
@@ -187,6 +192,18 @@ public class UsersController {
 
 
     }
+    @RequestMapping("/admins")
+    public String viewAllAdmins(Model model,  Principal principal,ModelMap modelMap)
+    {
+
+        User user= userService.findByUsername(principal.getName());
+        // model.addAttribute("user_id",user.getId());
+        model.addAttribute("users", studentService.findAllByRole("ROLE_ADMIN").stream().filter(admin->admin.getId()!=user.getId()).collect(Collectors.toList()));
+        modelMap.addAttribute("page","/WEB-INF/showUsers.jsp");
+        return "template.jsp";
+
+
+    }
     @RequestMapping(value = "/extras")
     public String viewAllExtraExams(
     		Principal principal,HttpServletRequest request,
@@ -205,5 +222,14 @@ public class UsersController {
 		modelMap.addAttribute("page","/WEB-INF/extras.jsp");
 		return "template.jsp";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getName")
+    public String getName(Principal principal)    {
+		User user =this.userService.findByUsername(principal.getName());
+		return user.getFirstName()+" "+user.getLastName();
+    }
+
+
 
 }

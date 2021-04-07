@@ -12,8 +12,11 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Size(min=3, message="Username must be greater than 3 characters")
     private String username;
+    @Size(min=3, message="First name must be greater than 3 characters")
+    private String firstName;
+    @Size(min=3, message="Last name must be greater than 3 characters")
+    private String lastName;
     @Size(min=8, message="Password must be greater than 8 characters")
     private String password;
     @Transient
@@ -63,6 +66,18 @@ public class User {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     public String getPassword() {
         return password;

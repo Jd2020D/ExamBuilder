@@ -29,14 +29,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // .antMatchers("/static/**", "/registration","/createUser").permitAll()
                 // .antMatchers("/static/**").permitAll()
                 // .antMatchers("/**").authenticated()
-                .antMatchers("/admin/**").access("hasRole('ADMIN')")    // NEW    // NEW
-                .antMatchers("/instructor/**").access("hasRole('INSTRUCTOR')")    // NEW    // NEW
-                .antMatchers("/student/**").access("hasRole('STUDENT')")    // NEW    // NEW  
-                .antMatchers("/students").hasAnyRole("ADMIN","INSTRUCTOR")    // NEW    // NEW  
-                .antMatchers("/instructors/**").access("hasRole('ADMIN')")    // NEW    // NEW  
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")   
+                .antMatchers("/instructor/**").access("hasRole('INSTRUCTOR')")   
+                .antMatchers("/student/**").access("hasRole('STUDENT')")    
+                .antMatchers("/students").hasAnyRole("ADMIN","INSTRUCTOR")    
+                .antMatchers("/admins").hasAnyRole("ADMIN")  
+                .antMatchers("/addUser").hasAnyRole("ADMIN")    
+                .antMatchers("/instructors/**").access("hasRole('ADMIN')")    
                 .antMatchers("/css/**","/js/**").permitAll()
-                // .antMatchers("/registration","/createUser").permitAll()
-                .antMatchers("admin/nav.jsp").access("hasRole('STUDENT')")
+                .antMatchers("/registration","/createUser").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

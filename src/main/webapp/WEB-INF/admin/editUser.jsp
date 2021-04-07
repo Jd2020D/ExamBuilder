@@ -6,9 +6,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <div class="row">
-    <div class="col-4 mx-auto mt-5">
+    <div class="col-6 mx-auto mt-5">
         <div class="login-panel panel panel-success">
-
             <div class="panel-body">
                 <div class="panel-heading">
                     <h1>Edit</h1>
@@ -28,15 +27,23 @@
     <form:hidden path="id" />
 
     <p>
-        <form:label path="username">Username:</form:label>
+        <form:label path="username">Email :</form:label>
         <form:input path="username"/>
     </p>
     <p>
-        <form:label path="password">Password:</form:label>
+        <form:label path="firstName">First name :</form:label>
+        <form:input path="firstName"/>
+    </p>
+    <p>
+        <form:label path="lastName">Last name :</form:label>
+        <form:input path="lastName"/>
+    </p>
+    <p>
+        <form:label path="password">New Password:</form:label>
         <form:password path="password"/>
     </p>
     <p>
-        <form:label path="passwordConfirmation">Password Confirmation:</form:label>
+        <form:label path="passwordConfirmation">New Password Confirmation:</form:label>
         <form:password path="passwordConfirmation"/>
     </p>
 
@@ -59,37 +66,14 @@
     </div>
 
 
-    <input class="btn btn-primary" type="submit" value="Edit!"/>
-    <%@ include file = "DeleteUserBtn.jsp" %>
+    <input class="btn btn-warning" type="submit" value="Edit!"/>
 
 </form:form>
-
             </div>
         </div>
 
     </div>
 </div>
-<script>
-    changeRedirectUrl=function(role){
-        switch(role){
-            case "ROLE_STUDENT":
-            $("#deleteUser").attr("href","/students");
-            break;
-            case "ROLE_ADMIN":
-            $("#deleteUser").attr("href","/admins");
-            break;
-            case "ROLE_INSTRUCTOR":
-            $("#deleteUser").attr("href","/instructors");
-            break;
-            
-        }
-
-    }
-    changeRedirectUrl($("#roles").val())
-    $("#roles").change(function(e){
-        changeRedirectUrl($(this).val());
-    })
-</script>
 </body>
 </html>
 </body>

@@ -22,7 +22,7 @@
               </p>
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
               <div class="form-group">
-                  <input type="text" id="username" name="username"  class="form-control" placeholder="Email / Username" value="" required autofocus/>
+                  <input type="text" id="username" name="username"  class="form-control" placeholder="Email " value="" required autofocus/>
               </div>
               <div class="form-group">
                   <input type="password" id="password" name="password" class="form-control" placeholder="Password" value="" required />

@@ -16,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,38 +61,8 @@ public class StudentsController {
 
     
     
-    @RequestMapping("/editUser")
-    public String editUserForm(@ModelAttribute("user") User user , Model model, ModelMap modelMap,Principal principal) {
-
-        User logged_user= studentService.findByUsername(principal.getName());
-        model.addAttribute("user",logged_user);
-
-        model.addAttribute("allRoles", AllRoles.Roles[1]);
-
-        modelMap.addAttribute("page","/WEB-INF/student/editUser.jsp");
-        modelMap.addAttribute("nav","/WEB-INF/student/nav.jsp");
-
-        return "template.jsp";
-
-    }
 
 
-    @PutMapping("/editUser")
-    public String editUser(@Valid @ModelAttribute("user") User user, BindingResult result,ModelMap modelMap) {
-        userValidator.validate(user, result);
-
-        if (result.hasErrors()) {
-            modelMap.addAttribute("nav","/WEB-INF/student/nav.jsp");
-            modelMap.addAttribute("page","/WEB-INF/student/editUser.jsp");
-
-            return "template.jsp";
-        }
-
-        studentService.saveWithStudentRole(user);
-
-        return "redirect:/student/editUser";
-
-    }
 	@RequestMapping(value = "/exams")
 	public String redirectToExams(Principal principal) {
 		User current =this.userService.findByUsername(principal.getName());

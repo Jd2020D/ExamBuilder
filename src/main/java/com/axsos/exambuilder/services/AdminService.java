@@ -1,6 +1,8 @@
 package com.axsos.exambuilder.services;
 
 
+import com.axsos.exambuilder.models.Exam;
+import com.axsos.exambuilder.models.StudentExam;
 import com.axsos.exambuilder.models.User;
 import com.axsos.exambuilder.repositories.RoleRepository;
 import com.axsos.exambuilder.repositories.UserRepository;
@@ -14,11 +16,14 @@ public class AdminService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final ExamService examService;
 
-    public AdminService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder)     {
+    public AdminService(ExamService examService,UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder)     {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.examService = examService;
+
     }
 
     public List<User> findAllByRole(String role){
@@ -59,8 +64,12 @@ public class AdminService {
     public User findById(Long id) {
         return userRepository.getById(id);
     }
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(User userToDelete) {
+        for(Exam exam :userToDelete.getExams())
+            examService.deleteExam(exam);
+        for(StudentExam studentExam : userToDelete.getStudentExams() )
+            examService.deleteStudentExam(studentExam);
+        userRepository.delete(userToDelete);
     }
 
     public List<User> all() {

@@ -18,7 +18,6 @@
 <h1> ${thisExam.title }</h1>
 <div class="form-row">
 	<a class="btn btn-warning text-dark h-25" href="/instructor/${instructor.id}/exams/${thisExam.id}">Exam Settings </a>
-	<p class="text-warning m-3 font-weight-bold">Note : You can'nt add students to unpublished exam</p>
 </div>
 
 <h2>Joined Students</h2>
@@ -26,6 +25,7 @@
 	<thead class="thead-dark">
 		<tr>
 			<th scope="col">ID</th>
+			<th scope="col">Email</th>
 			<th scope="col">Name</th>
 			<th scope="col">Mark</th>
 			<th scope="col">Actions</th>            
@@ -36,6 +36,7 @@
 	<tr>
 		<td>${stuExam.getStudent().getId()}</td>
 		<td>${stuExam.getStudent().getUsername()}</td>
+		<td>${stuExam.getStudent().getFirstName()} ${stuExam.getStudent().getLastName()}</td>
 		<td>${stuExam.getTotalMarks()}</td>
 		<td>
 			<form action="/instructor/${instructor.id}/exams/${thisExam.id}/students/${stuExam.getStudent().getId()}" method="POST">
@@ -59,6 +60,7 @@
 	<thead class="thead-dark">
 		<tr>
 			<th scope="col">ID</th>
+			<th scope="col">Email</th>
 			<th scope="col">Name</th>
 			<th scope="col">Actions</th>            
 	</tr>
@@ -68,6 +70,7 @@
 	<tr>
 		<td>${stu.getId()}</td>
 		<td>${stu.getUsername()}</td>
+		<td>${stu.getFirstName()} ${stu.getLastName()}</td>
 		<td>
 			<form action="/instructor/${instructor.id}/exams/${thisExam.id}/students/${stu.getId()}" method="POST">
 				<input type="hidden"name="${_csrf.parameterName}"  value="${_csrf.token}"/>            

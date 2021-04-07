@@ -77,7 +77,7 @@ public class ExamController {
 		User current =this.userService.findByUsername(principal.getName());
 		return "redirect:/instructor/"+current.getId()+"/exams";
 	}
-	//done
+
 	@RequestMapping(value = "/{id}/exams")
     public String createExamFormView(@PathVariable Long id,
     		Principal principal,HttpServletRequest request,
