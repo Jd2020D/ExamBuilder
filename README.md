@@ -3,7 +3,6 @@ ExamBuilder is a platform that contains Admins,Instructors and Students, Where t
 Then each student assigned to a specifiec exam will have his own copy of questions and answers that been picked randomly from questions bank,
 and each exam has its end countdown timer where the student should answer all the questions before the exam timed out!
 
-<br/>
 ![Untitled](https://user-images.githubusercontent.com/74168043/113866240-c1216c80-97b5-11eb-8620-f9f66ea0f4bf.png)
 
 <h2>Admin</h2>
